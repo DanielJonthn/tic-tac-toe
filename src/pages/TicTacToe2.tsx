@@ -77,19 +77,19 @@ const TicTacToe2 = () => {
     setXIsNext(true);
   };
 
-  // const jumpTo = (step: number) => {
-  //   setStepNumber(step);
-  //   setXIsNext(step % 2 === 0);
-  // };
+  const jumpTo = (step: number) => {
+    setStepNumber(step);
+    setXIsNext(step % 2 === 0);
+  };
 
-  // const moves = history.map((_, move) => {
-  //   const desc = move ? `Go to move #${move}` : "Go to game start";
-  //   return (
-  //     <li key={move}>
-  //       <button onClick={() => jumpTo(move)}>{desc}</button>
-  //     </li>
-  //   );
-  // });
+  const moves = history.map((_, move) => {
+    const desc = move ? `Go to move #${move}` : "Go to game start";
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{desc}</button>
+      </li>
+    );
+  });
 
   //TODO LOGIC TAMBAHAN ENHANCED
 
@@ -110,7 +110,9 @@ const TicTacToe2 = () => {
       </div>
 
       <div className="game-container">
-        <h1 className="game-title">Tic Tac Toe</h1>
+        <Link to="/">
+          <h1 className="game-title">Tic Tac Toe</h1>
+        </Link>
 
         <div className="game-content">
           <div className="game-main">
@@ -126,9 +128,9 @@ const TicTacToe2 = () => {
           </div>
         </div>
       </div>
-      {/* <div className="move-history">
+      <div className="move-history">
         <ol>{moves}</ol>
-      </div> */}
+      </div>
     </div>
   );
 };

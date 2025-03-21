@@ -1,7 +1,9 @@
 .page-container {
   display: flex;
   flex-direction: row;
+  height: 100%;
   align-items: center;
+  padding: 0px 70px 0px 70px;
   justify-content: space-between;
 }
 
