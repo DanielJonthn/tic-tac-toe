@@ -5,9 +5,12 @@ import { Board as BoardType, Player } from "../types/game";
 import { Link } from "react-router-dom";
 
 const TicTacToe2 = () => {
-  const [history, setHistory] = useState<{ squares: BoardType }[]>([
+  const [history, setHistory] = useState<
+    { squares: BoardType; moveSequence: number[] }[]
+  >([
     {
       squares: Array(9).fill(null),
+      moveSequence: [],
     },
   ]);
   const [xIsNext, setXIsNext] = useState(true);
@@ -43,18 +46,48 @@ const TicTacToe2 = () => {
     return null;
   };
 
+  const countPlayerMarks = (squares: BoardType, player: Player): number => {
+    return squares.filter((square) => square === player).length;
+  };
+
   const handleClick = (index: number) => {
     const currentHistory = history.slice(0, stepNumber + 1);
     const current = currentHistory[currentHistory.length - 1];
     const squares = [...current.squares];
+    const moveSequence = [...current.moveSequence];
 
     if (calculateWinner(squares) || squares[index]) {
       return;
     }
 
-    squares[index] = xIsNext ? "X" : "O";
+    const currentPlayer = xIsNext ? "X" : "O";
+    const playerMarkCount = countPlayerMarks(squares, currentPlayer);
 
-    setHistory([...currentHistory, { squares }]);
+    squares[index] = currentPlayer;
+    moveSequence.push(index);
+
+    if (calculateWinner(squares)) {
+      setHistory([...currentHistory, { squares, moveSequence }]);
+      setStepNumber(currentHistory.length);
+      setXIsNext(!xIsNext);
+      return;
+    }
+
+    if (playerMarkCount >= 2) {
+      const playerMoves = moveSequence.filter(
+        (move) => squares[move] === currentPlayer
+      );
+
+      if (playerMoves.length > 0) {
+        const earliestMove = playerMoves[0];
+        squares[earliestMove] = null;
+
+        const earliestMoveIndex = moveSequence.indexOf(earliestMove);
+        moveSequence.splice(earliestMoveIndex, 1);
+      }
+    }
+
+    setHistory([...currentHistory, { squares, moveSequence }]);
     setStepNumber(currentHistory.length);
     setXIsNext(!xIsNext);
   };
@@ -72,26 +105,10 @@ const TicTacToe2 = () => {
   }
 
   const resetGame = () => {
-    setHistory([{ squares: Array(9).fill(null) }]);
+    setHistory([{ squares: Array(9).fill(null), moveSequence: [] }]);
     setStepNumber(0);
     setXIsNext(true);
   };
-
-  // const jumpTo = (step: number) => {
-  //   setStepNumber(step);
-  //   setXIsNext(step % 2 === 0);
-  // };
-
-  // const moves = history.map((_, move) => {
-  //   const desc = move ? `Go to move #${move}` : "Go to game start";
-  //   return (
-  //     <li key={move}>
-  //       <button onClick={() => jumpTo(move)}>{desc}</button>
-  //     </li>
-  //   );
-  // });
-
-  //TODO LOGIC TAMBAHAN ENHANCED
 
   return (
     <div className="page-container">
@@ -110,7 +127,9 @@ const TicTacToe2 = () => {
       </div>
 
       <div className="game-container">
-        <h1 className="game-title">Tic Tac Toe</h1>
+        <Link to="/">
+          <h1 className="game-title">Tic Tac Toe</h1>
+        </Link>
 
         <div className="game-content">
           <div className="game-main">
@@ -126,9 +145,6 @@ const TicTacToe2 = () => {
           </div>
         </div>
       </div>
-      {/* <div className="move-history">
-        <ol>{moves}</ol>
-      </div> */}
     </div>
   );
 };
