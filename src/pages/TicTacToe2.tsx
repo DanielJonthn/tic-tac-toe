@@ -128,7 +128,7 @@ const TicTacToe2 = () => {
 
       <div className="game-container">
         <Link to="/">
-          <h1 className="game-title">Tic Tac Toe</h1>
+          <h1 className="game-title">Tic Tac Toe 2</h1>
         </Link>
 
         <div className="game-content">
