@@ -5,6 +5,7 @@ export type Board = Player[];
 export type GameHistory = {
   squares: Board;
   currentPlayer: Player;
+  moveSequence: number[];
 };
 
 export type GameType = "classic" | "enhanced";

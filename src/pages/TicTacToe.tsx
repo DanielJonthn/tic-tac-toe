@@ -77,20 +77,6 @@ const TicTacToe = () => {
     setXIsNext(true);
   };
 
-  const jumpTo = (step: number) => {
-    setStepNumber(step);
-    setXIsNext(step % 2 === 0);
-  };
-
-  const moves = history.map((_, move) => {
-    const desc = move ? `Go to move #${move}` : "Go to game start";
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
-      </li>
-    );
-  });
-
   return (
     <div className="page-container">
       <div className="game-options">
@@ -125,9 +111,6 @@ const TicTacToe = () => {
             </button>
           </div>
         </div>
-      </div>
-      <div className="move-history">
-        <ol>{moves}</ol>
       </div>
     </div>
   );
