@@ -1,29 +1,34 @@
+import "../styles/board.css";
 import React from "react";
 import Cell from "./Cell";
-import "../styles/board.css";
+import { Board as BoardType } from "../types/game";
 
 type BoardProps = {
-  squares: (string | null)[];
+  squares: BoardType;
   onCellClick: (index: number) => void;
 };
 
 const Board: React.FC<BoardProps> = ({ squares, onCellClick }) => {
+  const renderCell = (i: number) => {
+    return <Cell value={squares[i]} onCellClick={() => onCellClick(i)} />;
+  };
+
   return (
     <div className="board">
       <div className="board-row">
-        <Cell value={squares[0]} onCellClick={() => onCellClick(0)} />
-        <Cell value={squares[1]} onCellClick={() => onCellClick(1)} />
-        <Cell value={squares[2]} onCellClick={() => onCellClick(2)} />
+        {renderCell(0)}
+        {renderCell(1)}
+        {renderCell(2)}
       </div>
       <div className="board-row">
-        <Cell value={squares[3]} onCellClick={() => onCellClick(3)} />
-        <Cell value={squares[4]} onCellClick={() => onCellClick(4)} />
-        <Cell value={squares[5]} onCellClick={() => onCellClick(5)} />
+        {renderCell(3)}
+        {renderCell(4)}
+        {renderCell(5)}
       </div>
       <div className="board-row">
-        <Cell value={squares[6]} onCellClick={() => onCellClick(6)} />
-        <Cell value={squares[7]} onCellClick={() => onCellClick(7)} />
-        <Cell value={squares[8]} onCellClick={() => onCellClick(8)} />
+        {renderCell(6)}
+        {renderCell(7)}
+        {renderCell(8)}
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
-import React from "react";
 import "../styles/board.css";
+import React from "react";
+import { Player } from "../types/game";
 
 type CellProps = {
-  value: string | null;
+  value: Player;
   onCellClick: () => void;
 };
 
