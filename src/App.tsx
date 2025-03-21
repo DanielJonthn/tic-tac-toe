@@ -6,17 +6,13 @@ import TicTacToe2 from "./pages/TicTacToe2";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <div className="app">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/classic" element={<TicTacToe />} />
-            <Route path="/enhanced" element={<TicTacToe2 />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/classic" element={<TicTacToe />} />
+        <Route path="/enhanced" element={<TicTacToe2 />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
