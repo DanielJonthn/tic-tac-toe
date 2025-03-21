@@ -9,13 +9,13 @@
   font-size: 2.5rem;
 }
 
-.game-options {
+.game-options-home {
   display: flex;
   justify-content: space-around;
   gap: 2rem;
 }
 
-.game-option {
+.game-option-home {
   background-color: white;
   border-radius: 8px;
   padding: 2rem;
@@ -26,12 +26,12 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.game-option:hover {
+.game-option-home:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.game-option h2 {
+.game-option-home h2 {
   color: var(--primary-color);
   margin-bottom: 1rem;
 }

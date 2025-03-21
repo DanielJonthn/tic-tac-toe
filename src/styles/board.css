@@ -1,17 +1,44 @@
 .cell {
   width: 100px;
   height: 100px;
-  border-radius: 0;
-  border-color: white;
+  background: white;
+  border: 1px solid #333;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: black;
+}
+
+.cell:not(:last-child) {
+  border-right: 2px solid var(--dark-color);
+}
+
+.cell:hover {
+  background-color: #f0f0f0;
+}
+
+.cell:focus {
+  outline: none;
+  background-color: #e0e0e0;
 }
 
 .board {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  border: 2px solid var(--dark-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: auto;
 }
 
 .board-row {
   display: flex;
+}
+
+.board-row:not(:last-child) {
+  border-bottom: 2px solid var(--dark-color);
 }
