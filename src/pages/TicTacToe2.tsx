@@ -130,9 +130,6 @@ const TicTacToe2 = () => {
         <Link to="/">
           <h1 className="game-title">Tic Tac Toe</h1>
         </Link>
-        <Link to="/">
-          <h1 className="game-title">Tic Tac Toe</h1>
-        </Link>
 
         <div className="game-content">
           <div className="game-main">
