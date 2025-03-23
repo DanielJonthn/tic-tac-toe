@@ -1,10 +1,22 @@
 import "../styles/ticTacToe.css";
 import Board from "../components/Board";
-import { useState } from "react";
-import { Board as BoardType, Player } from "../types/game";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {
+  Board as BoardType,
+  Player,
+  Difficulty,
+  GameMode,
+} from "../types/game";
+import { Link, useLocation } from "react-router-dom";
+import { makeAIMove } from "../utils/aiPlayer";
 
 const TicTacToe = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialMode = (searchParams.get("mode") as GameMode) || "pvp";
+  const initialDifficulty =
+    (searchParams.get("difficulty") as Difficulty) || "medium";
+
   const [history, setHistory] = useState<{ squares: BoardType }[]>([
     {
       squares: Array(9).fill(null),
@@ -12,6 +24,9 @@ const TicTacToe = () => {
   ]);
   const [xIsNext, setXIsNext] = useState(true);
   const [stepNumber, setStepNumber] = useState(0);
+  const [gameMode, setGameMode] = useState<GameMode>(initialMode);
+  const [difficulty, setDifficulty] = useState<Difficulty>(initialDifficulty);
+  const [isAIThinking, setIsAIThinking] = useState(false);
 
   const calculateWinner = (squares: BoardType): Player | "draw" => {
     const lines = [
@@ -44,6 +59,8 @@ const TicTacToe = () => {
   };
 
   const handleClick = (index: number) => {
+    if (isAIThinking) return;
+
     const currentHistory = history.slice(0, stepNumber + 1);
     const current = currentHistory[currentHistory.length - 1];
     const squares = [...current.squares];
@@ -59,6 +76,36 @@ const TicTacToe = () => {
     setXIsNext(!xIsNext);
   };
 
+  useEffect(() => {
+    if (
+      gameMode === "pvc" &&
+      !xIsNext &&
+      !calculateWinner(history[stepNumber].squares) &&
+      !isAIThinking
+    ) {
+      setIsAIThinking(true);
+
+      const timeoutId = setTimeout(() => {
+        const currentHistory = history.slice(0, stepNumber + 1);
+        const current = currentHistory[currentHistory.length - 1];
+        const squares = [...current.squares];
+
+        const aiMove = makeAIMove(squares, "O", difficulty);
+        if (aiMove !== -1) {
+          squares[aiMove] = "O";
+
+          setHistory([...currentHistory, { squares }]);
+          setStepNumber(currentHistory.length);
+          setXIsNext(true);
+        }
+
+        setIsAIThinking(false);
+      }, 500);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [gameMode, xIsNext, stepNumber, difficulty]);
+
   const current = history[stepNumber];
   const winner = calculateWinner(current.squares);
 
@@ -67,6 +114,8 @@ const TicTacToe = () => {
     status = "Game ended in a draw!";
   } else if (winner) {
     status = `Winner: ${winner}`;
+  } else if (isAIThinking) {
+    status = "Computer is thinking...";
   } else {
     status = `Next player: ${xIsNext ? "X" : "O"}`;
   }
@@ -75,6 +124,16 @@ const TicTacToe = () => {
     setHistory([{ squares: Array(9).fill(null) }]);
     setStepNumber(0);
     setXIsNext(true);
+  };
+
+  const changeGameMode = (mode: GameMode) => {
+    setGameMode(mode);
+    resetGame();
+  };
+
+  const changeDifficulty = (newDifficulty: Difficulty) => {
+    setDifficulty(newDifficulty);
+    resetGame();
   };
 
   return (
@@ -97,6 +156,64 @@ const TicTacToe = () => {
         <Link to="/">
           <h1 className="game-title">Classic Tic Tac Toe</h1>
         </Link>
+
+        <div className="game-mode-controls">
+          <div className="mode-buttons">
+            <button
+              className={
+                gameMode === "pvp" ? "mode-button active" : "mode-button"
+              }
+              onClick={() => changeGameMode("pvp")}
+            >
+              Player vs Player
+            </button>
+            <button
+              className={
+                gameMode === "pvc" ? "mode-button active" : "mode-button"
+              }
+              onClick={() => changeGameMode("pvc")}
+            >
+              Player vs Computer
+            </button>
+          </div>
+
+          {gameMode === "pvc" && (
+            <div className="difficulty-controls">
+              <div className="difficulty-buttons">
+                <button
+                  className={
+                    difficulty === "easy"
+                      ? "difficulty-button active"
+                      : "difficulty-button"
+                  }
+                  onClick={() => changeDifficulty("easy")}
+                >
+                  Easy
+                </button>
+                <button
+                  className={
+                    difficulty === "medium"
+                      ? "difficulty-button active"
+                      : "difficulty-button"
+                  }
+                  onClick={() => changeDifficulty("medium")}
+                >
+                  Medium
+                </button>
+                <button
+                  className={
+                    difficulty === "hard"
+                      ? "difficulty-button active"
+                      : "difficulty-button"
+                  }
+                  onClick={() => changeDifficulty("hard")}
+                >
+                  Hard
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
 
         <div className="game-content">
           <div className="game-main">

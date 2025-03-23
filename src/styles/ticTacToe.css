@@ -28,7 +28,6 @@
   justify-content: center;
   align-items: center;
   gap: 40px;
-  align-items: flex-start;
   width: 100%;
 }
 
@@ -154,4 +153,18 @@
 .game1-option-classic.selected {
   background-color: #dce4ff;
   border-left: 5px solid #4a6baf;
+}
+
+.game-mode-controls {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.difficulty-controls {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
