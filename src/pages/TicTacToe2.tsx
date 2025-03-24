@@ -31,7 +31,9 @@ const TicTacToe2 = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>(initialDifficulty);
   const [isAIThinking, setIsAIThinking] = useState(false);
 
-  const calculateWinner = (squares: BoardType): Player | "draw" => {
+  const calculateWinner = (
+    squares: BoardType
+  ): { winner: Player | "draw"; line: number[] | null } | null => {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -43,19 +45,19 @@ const TicTacToe2 = () => {
       [2, 4, 6],
     ];
 
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
+    for (let line of lines) {
+      const [a, b, c] = line;
       if (
         squares[a] &&
         squares[a] === squares[b] &&
         squares[a] === squares[c]
       ) {
-        return squares[a];
+        return { winner: squares[a], line };
       }
     }
 
     if (squares.every((square) => square !== null)) {
-      return "draw";
+      return { winner: "draw", line: null };
     }
 
     return null;
@@ -152,7 +154,9 @@ const TicTacToe2 = () => {
   }, [history, stepNumber, xIsNext, gameMode, difficulty, isAIThinking]);
 
   const current = history[stepNumber];
-  const winner = calculateWinner(current.squares);
+  const winnerInfo = calculateWinner(current.squares);
+  const winner = winnerInfo?.winner || null;
+  const winningLine = winnerInfo?.line || null;
 
   let status;
   if (winner === "draw") {
@@ -265,7 +269,11 @@ const TicTacToe2 = () => {
             <div className="status">{status}</div>
 
             <div className="game-board">
-              <Board squares={current.squares} onCellClick={handleClick} />
+              <Board
+                squares={current.squares}
+                onCellClick={handleClick}
+                winningLine={winningLine}
+              />
             </div>
 
             <button className="reset-button" onClick={resetGame}>
