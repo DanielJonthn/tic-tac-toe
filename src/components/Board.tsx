@@ -1,4 +1,3 @@
-import "../styles/board.css";
 import React from "react";
 import Cell from "./Cell";
 import { Board as BoardType } from "../types/game";

@@ -1,4 +1,3 @@
-import "../styles/ticTacToe.css";
 import Board from "../components/Board";
 import { useState, useEffect } from "react";
 import {
