@@ -11,7 +11,7 @@ Welcome to the **Tic Tac Toe** project! This game is built with **React** and fe
 
 - **Two Versions of Games**: Classic & Enhanced
 - **Player vs Player Mode** (PvP)
-- **Future Expansion**: Player vs Computer
+- **Player vs Computer**
 
 ---
 
@@ -45,7 +45,7 @@ Access the game at `http://localhost:5173/` 🎉
 
 The project will be hosted on **Vercel**.
 
-Live Demo: [Coming Soon!]
+Live Demo: [`https://tictactoe-md.vercel.app/`]
 
 ---
 
