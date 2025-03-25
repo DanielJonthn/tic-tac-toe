@@ -1,4 +1,4 @@
-import "./styles/app.css";
+import "./styles/apps.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import TicTacToe from "./pages/TicTacToe";
