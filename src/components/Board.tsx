@@ -1,4 +1,3 @@
-import "../styles/board.css";
 import React from "react";
 import Cell from "./Cell";
 import { Board as BoardType } from "../types/game";
@@ -6,11 +5,19 @@ import { Board as BoardType } from "../types/game";
 type BoardProps = {
   squares: BoardType;
   onCellClick: (index: number) => void;
+  winningLine: number[] | null;
 };
 
-const Board: React.FC<BoardProps> = ({ squares, onCellClick }) => {
+const Board: React.FC<BoardProps> = ({ squares, onCellClick, winningLine }) => {
   const renderCell = (i: number) => {
-    return <Cell value={squares[i]} onCellClick={() => onCellClick(i)} />;
+    const isWinningCell = winningLine?.includes(i);
+    return (
+      <Cell
+        value={squares[i]}
+        onCellClick={() => onCellClick(i)}
+        isWinningCell={isWinningCell}
+      />
+    );
   };
 
   return (
@@ -30,6 +37,10 @@ const Board: React.FC<BoardProps> = ({ squares, onCellClick }) => {
         {renderCell(7)}
         {renderCell(8)}
       </div>
+
+      {winningLine && (
+        <div className={`winning-line line-${winningLine.join("-")} show`} />
+      )}
     </div>
   );
 };
