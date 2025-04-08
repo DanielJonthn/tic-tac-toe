@@ -45,10 +45,10 @@ Access the game at `http://localhost:5173/` 🎉
 
 The project will be hosted on **Vercel**.
 
-Live Demo: [`https://tictactoe-md.vercel.app/`]
+### 🔗 [Live Demo](https://tictactoe-md.vercel.app/)
 
 ---
 
 ## 🤝 Contributor
 
-Daniel Jonathan & Michael Angelo
+[@DanielJonthn](https://github.com/DanielJonthn) & [@micccAngelo](https://github.com/micccAngelo)
